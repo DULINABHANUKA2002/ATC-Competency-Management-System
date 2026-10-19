@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Reports – SLAF ATC Competency Management System" />
+  <title>Reports – SLAF ATC CMS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Orbitron:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
+</head>
+<body class="app-page">
+  <aside class="sidebar" id="sidebar"></aside>
+  <header class="mobile-header">
+    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+    <span class="mobile-title">Reports</span>
+    <button class="mobile-logout" id="mobileLogout">Logout</button>
+  </header>
+
+  <main class="main-content">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Reports &amp; Analytics</h1>
+        <p class="page-subtitle">Comprehensive performance analysis and export tools</p>
+      </div>
+    </div>
+
+    <!-- Report Type Selector -->
+    <div class="report-type-grid" id="reportTypeGrid">
+      <button class="report-type-card active" data-report="individual" id="rt-individual">
+        <span class="rt-icon">👤</span>
+        <span class="rt-label">Individual</span>
+      </button>
+      <button class="report-type-card" data-report="base" id="rt-base">
+        <span class="rt-icon">🏛</span>
+        <span class="rt-label">Air Base</span>
+      </button>
+      <button class="report-type-card" data-report="monthly" id="rt-monthly">
+        <span class="rt-icon">📅</span>
+        <span class="rt-label">Monthly</span>
+      </button>
+      <button class="report-type-card" data-report="annual" id="rt-annual">
+        <span class="rt-icon">📊</span>
+        <span class="rt-label">Annual</span>
+      </button>
+      <button class="report-type-card" data-report="missing" id="rt-missing">
+        <span class="rt-icon">⚠</span>
+        <span class="rt-label">Missing Tests</span>
+      </button>
+      <button class="report-type-card" data-report="skill" id="rt-skill">
+        <span class="rt-icon">🎯</span>
+        <span class="rt-label">Skill Distribution</span>
+      </button>
+    </div>
+
+    <!-- Report Filters -->
+    <div class="report-filters" id="reportFilters">
+      <div class="form-row" id="filterRow">
+        <!-- Dynamic filters by JS -->
+      </div>
+      <button class="btn-primary" id="generateReportBtn">Generate Report</button>
+    </div>
+
+    <!-- Report Output -->
+    <div class="report-output" id="reportOutput" style="display:none">
+      <div class="card-header">
+        <h2 class="card-title" id="reportTitle">Report</h2>
+        <div class="card-actions">
+          <button class="btn-sm btn-outline" id="printReportBtn">🖨 Print</button>
+          <button class="btn-sm btn-primary" id="exportReportCSV">↓ Export CSV</button>
+        </div>
+      </div>
+      <div id="reportContent">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/reports.js"></script>
+</body>
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="User Management – SLAF ATC Competency Management System" />
+  <title>User Management – SLAF ATC CMS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Orbitron:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
+</head>
+<body class="app-page">
+  <aside class="sidebar" id="sidebar"></aside>
+  <header class="mobile-header">
+    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+    <span class="mobile-title">Users</span>
+    <button class="mobile-logout" id="mobileLogout">Logout</button>
+  </header>
+
+  <main class="main-content">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">User Management</h1>
+        <p class="page-subtitle">System users, roles and access control</p>
+      </div>
+      <div class="page-actions">
+        <button class="btn-primary" id="addUserBtn">+ Add User</button>
+      </div>
+    </div>
+
+    <!-- Users Table -->
+    <div class="table-card">
+      <div class="card-header">
+        <div class="role-tabs">
+          <button class="role-tab active" data-filter="all">All Users</button>
+          <button class="role-tab" data-filter="director">Director</button>
+          <button class="role-tab" data-filter="admin">Admin</button>
+          <button class="role-tab" data-filter="user">User</button>
+          <button class="role-tab" data-filter="viewer">Viewer</button>
+        </div>
+        <div class="card-actions">
+          <input type="search" class="search-input" id="userSearch" placeholder="Search users…" />
+        </div>
+      </div>
+      <div class="table-responsive">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Username</th>
+              <th>Full Name</th>
+              <th>Role</th>
+              <th>Air Base Access</th>
+              <th>Status</th>
+              <th>Last Login</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="usersTableBody">
+            <tr><td colspan="7" class="table-loading">Loading users…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Role Permissions Card -->
+    <div class="table-card">
+      <div class="card-header">
+        <h2 class="card-title">Role Permissions Matrix</h2>
+      </div>
+      <div class="table-responsive">
+        <table class="data-table permissions-table">
+          <thead>
+            <tr>
+              <th>Permission</th>
+              <th class="role-col">Director</th>
+              <th class="role-col">Admin</th>
+              <th class="role-col">User</th>
+              <th class="role-col">Viewer</th>
+            </tr>
+          </thead>
+          <tbody id="permissionsBody">
+            <!-- Populated by JS -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <!-- Add/Edit User Modal -->
+  <div class="modal-overlay" id="userEditModal" style="display:none">
+    <div class="modal-box modal-lg">
+      <div class="modal-header">
+        <h2 class="modal-title" id="userEditTitle">Add User</h2>
+        <button class="modal-close" id="userEditClose">✕</button>
+      </div>
+      <div class="modal-body">
+        <form id="userEditForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Username *</label>
+              <input type="text" id="ue_username" required placeholder="Username" />
+            </div>
+            <div class="form-group">
+              <label>Full Name *</label>
+              <input type="text" id="ue_name" required placeholder="Full name" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Role *</label>
+              <select id="ue_role" required>
+                <option value="">Select Role</option>
+                <option value="director">Director</option>
+                <option value="admin">Admin</option>
+                <option value="user">User</option>
+                <option value="viewer">Viewer</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Air Base Access</label>
+              <select id="ue_base">
+                <option value="all">All Bases</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Password *</label>
+              <input type="password" id="ue_password" placeholder="Leave blank to keep existing" />
+            </div>
+            <div class="form-group">
+              <label>Status</label>
+              <select id="ue_status">
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+              </select>
+            </div>
+          </div>
+          <input type="hidden" id="ue_id" value="" />
+          <div class="modal-footer">
+            <button type="button" class="btn-outline" id="userEditCancel">Cancel</button>
+            <button type="submit" class="btn-primary">Save User</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/users.js"></script>
+</body>
+</html>

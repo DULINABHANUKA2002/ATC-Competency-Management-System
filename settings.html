@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="System Settings – SLAF ATC Competency Management System" />
+  <title>Settings – SLAF ATC CMS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Orbitron:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
+</head>
+<body class="app-page">
+  <aside class="sidebar" id="sidebar"></aside>
+  <header class="mobile-header">
+    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+    <span class="mobile-title">Settings</span>
+    <button class="mobile-logout" id="mobileLogout">Logout</button>
+  </header>
+
+  <main class="main-content">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">System Settings</h1>
+        <p class="page-subtitle">Configure skill levels, job categories and ranking rules</p>
+      </div>
+    </div>
+
+    <div class="settings-grid">
+      <!-- Skill Levels Card -->
+      <div class="settings-card">
+        <div class="card-header">
+          <h2 class="card-title">Skill Levels</h2>
+          <button class="btn-sm btn-primary" id="addSkillBtn">+ Add</button>
+        </div>
+        <div id="skillLevelsList" class="settings-list">Loading…</div>
+      </div>
+
+      <!-- Job Categories -->
+      <div class="settings-card">
+        <div class="card-header">
+          <h2 class="card-title">Job Categories</h2>
+          <button class="btn-sm btn-primary" id="addCategoryBtn">+ Add</button>
+        </div>
+        <div id="categoriesList" class="settings-list">Loading…</div>
+      </div>
+
+      <!-- Ranking Configuration -->
+      <div class="settings-card settings-card-wide">
+        <div class="card-header">
+          <h2 class="card-title">Ranking Configuration</h2>
+        </div>
+        <form id="rankingConfigForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Ranking Method</label>
+              <select id="rc_method">
+                <option value="annual_avg">Annual Average Score</option>
+                <option value="monthly_avg">Monthly Average Score</option>
+                <option value="weighted">Weighted (Custom)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Tie-break Rule</label>
+              <select id="rc_tiebreak">
+                <option value="tests_count">Number of Tests Completed</option>
+                <option value="latest_score">Latest Test Score</option>
+                <option value="alphabetical">Alphabetical</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row" id="weightedOptions" style="display:none">
+            <div class="form-group">
+              <label>Annual Average Weight (%)</label>
+              <input type="number" id="rc_w_annual" min="0" max="100" value="60" />
+            </div>
+            <div class="form-group">
+              <label>Test Completion Weight (%)</label>
+              <input type="number" id="rc_w_tests" min="0" max="100" value="40" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Minimum Tests for Ranking</label>
+            <input type="number" id="rc_min_tests" min="1" max="12" value="6" />
+          </div>
+          <button type="submit" class="btn-primary">Save Ranking Settings</button>
+        </form>
+      </div>
+
+      <!-- Assessment Settings -->
+      <div class="settings-card settings-card-wide">
+        <div class="card-header">
+          <h2 class="card-title">Assessment Settings</h2>
+        </div>
+        <form id="assmtSettingsForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Default Max Marks</label>
+              <input type="number" id="as_maxmarks" value="100" min="1" />
+            </div>
+            <div class="form-group">
+              <label>Pass Threshold (%)</label>
+              <input type="number" id="as_pass_threshold" value="60" min="0" max="100" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Max PDF Upload Size (MB)</label>
+              <input type="number" id="as_max_file" value="10" min="1" max="50" />
+            </div>
+            <div class="form-group">
+              <label>Assessment Frequency</label>
+              <select id="as_freq">
+                <option value="monthly">Monthly</option>
+                <option value="quarterly">Quarterly</option>
+              </select>
+            </div>
+          </div>
+          <button type="submit" class="btn-primary">Save Assessment Settings</button>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <!-- Generic Edit Modal -->
+  <div class="modal-overlay" id="settingEditModal" style="display:none">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h2 class="modal-title" id="settingEditTitle">Edit</h2>
+        <button class="modal-close" id="settingEditClose">✕</button>
+      </div>
+      <div class="modal-body">
+        <form id="settingEditForm">
+          <div class="form-group">
+            <label id="settingField1Label">Name *</label>
+            <input type="text" id="se_field1" required />
+          </div>
+          <div class="form-group" id="se_field2_wrap" style="display:none">
+            <label id="settingField2Label">Description</label>
+            <textarea id="se_field2" rows="2"></textarea>
+          </div>
+          <input type="hidden" id="se_id" />
+          <input type="hidden" id="se_type" />
+          <div class="modal-footer">
+            <button type="button" class="btn-outline" id="settingEditCancel">Cancel</button>
+            <button type="submit" class="btn-primary">Save</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/settings.js"></script>
+</body>
+</html>

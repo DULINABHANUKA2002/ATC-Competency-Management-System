@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Personnel – SLAF ATC Competency Management System" />
+  <title>Personnel – SLAF ATC CMS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Orbitron:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
+</head>
+<body class="app-page">
+  <aside class="sidebar" id="sidebar"></aside>
+  <header class="mobile-header">
+    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+    <span class="mobile-title">Personnel</span>
+    <button class="mobile-logout" id="mobileLogout">Logout</button>
+  </header>
+
+  <main class="main-content">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Personnel</h1>
+        <p class="page-subtitle">ATC Personnel records and competency profiles</p>
+      </div>
+      <div class="page-actions">
+        <button class="btn-primary admin-only" id="addPersonnelBtn">+ Add Personnel</button>
+      </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="filter-bar">
+      <input type="search" class="search-input" id="personnelSearch" placeholder="Search by name or service no…" />
+      <select class="mini-select" id="filterBase">
+        <option value="">All Bases</option>
+      </select>
+      <select class="mini-select" id="filterSkill">
+        <option value="">All Skill Levels</option>
+        <option value="A">Level A</option>
+        <option value="B">Level B</option>
+        <option value="C">Level C</option>
+        <option value="Beginner">Beginner</option>
+      </select>
+      <select class="mini-select" id="filterCategory">
+        <option value="">All Categories</option>
+      </select>
+      <select class="mini-select" id="filterStatus">
+        <option value="">All Status</option>
+        <option value="current">Current</option>
+        <option value="review">Review</option>
+        <option value="inactive">Inactive</option>
+      </select>
+    </div>
+
+    <!-- Table -->
+    <div class="table-card">
+      <div class="card-header">
+        <span class="record-count" id="recordCount">Loading…</span>
+        <div class="card-actions">
+          <button class="btn-sm btn-outline" id="exportPersonnelBtn">Export CSV</button>
+        </div>
+      </div>
+      <div class="table-responsive">
+        <table class="data-table" id="mainPersonnelTable">
+          <thead>
+            <tr>
+              <th>Service No.</th>
+              <th>Rank &amp; Name</th>
+              <th>Air Base</th>
+              <th>Job Category</th>
+              <th>Skill Level</th>
+              <th>Monthly Avg</th>
+              <th>Annual Avg</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="personnelListBody"></tbody>
+        </table>
+      </div>
+      <div class="pagination" id="personnelPagination"></div>
+    </div>
+  </main>
+
+  <!-- Personnel Profile Modal -->
+  <div class="modal-overlay" id="profileModal" style="display:none">
+    <div class="modal-box modal-xl">
+      <div class="modal-header">
+        <h2 class="modal-title" id="profileModalTitle">Personnel Profile</h2>
+        <button class="modal-close" id="profileModalClose">✕</button>
+      </div>
+      <div class="modal-body profile-body" id="profileModalBody">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Add/Edit Personnel Modal -->
+  <div class="modal-overlay" id="personnelEditModal" style="display:none">
+    <div class="modal-box modal-lg">
+      <div class="modal-header">
+        <h2 class="modal-title" id="personnelEditTitle">Add Personnel</h2>
+        <button class="modal-close" id="personnelEditClose">✕</button>
+      </div>
+      <div class="modal-body">
+        <form id="personnelEditForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Service Number *</label>
+              <input type="text" id="pe_service" required placeholder="e.g., ATC-2024-001" />
+            </div>
+            <div class="form-group">
+              <label>Full Name *</label>
+              <input type="text" id="pe_name" required placeholder="Full name" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Rank *</label>
+              <select id="pe_rank" required>
+                <option value="">Select Rank</option>
+                <option>Air Vice Marshal</option>
+                <option>Air Commodore</option>
+                <option>Group Captain</option>
+                <option>Wing Commander</option>
+                <option>Squadron Leader</option>
+                <option>Flight Lieutenant</option>
+                <option>Flying Officer</option>
+                <option>Pilot Officer</option>
+                <option>Warrant Officer</option>
+                <option>Flight Sergeant</option>
+                <option>Sergeant</option>
+                <option>Corporal</option>
+                <option>Senior Aircraftman</option>
+                <option>Aircraftman</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Air Base *</label>
+              <select id="pe_base" required><option value="">Select Base</option></select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Job Category *</label>
+              <select id="pe_category" required>
+                <option value="">Select Category</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Current Skill Level</label>
+              <select id="pe_skill">
+                <option value="Beginner">Beginner</option>
+                <option value="C">Level C</option>
+                <option value="B">Level B</option>
+                <option value="A">Level A</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Date Joined</label>
+              <input type="date" id="pe_joined" />
+            </div>
+            <div class="form-group">
+              <label>Status</label>
+              <select id="pe_status">
+                <option value="current">Current</option>
+                <option value="review">Under Review</option>
+                <option value="inactive">Inactive</option>
+              </select>
+            </div>
+          </div>
+          <input type="hidden" id="pe_id" value="" />
+          <div class="modal-footer">
+            <button type="button" class="btn-outline" id="personnelEditCancel">Cancel</button>
+            <button type="submit" class="btn-primary">Save Personnel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/personnel.js"></script>
+</body>
+</html>

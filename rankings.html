@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Rankings – SLAF ATC Competency Management System" />
+  <title>Rankings – SLAF ATC CMS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Orbitron:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
+</head>
+<body class="app-page">
+  <aside class="sidebar" id="sidebar"></aside>
+  <header class="mobile-header">
+    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+    <span class="mobile-title">Rankings</span>
+    <button class="mobile-logout" id="mobileLogout">Logout</button>
+  </header>
+
+  <main class="main-content">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Performance Rankings</h1>
+        <p class="page-subtitle">Annual and monthly competency rankings across all air bases</p>
+      </div>
+      <div class="page-actions">
+        <button class="btn-sm btn-outline" id="exportRankBtn">Export PDF</button>
+      </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="filter-bar">
+      <select class="mini-select" id="rankBaseFilter"><option value="all">All Bases</option></select>
+      <select class="mini-select" id="rankYearFilter">
+        <option value="2026">2026</option>
+        <option value="2025">2025</option>
+      </select>
+      <div class="rank-tabs">
+        <button class="rank-tab active" id="tabAnnual" data-tab="annual">Annual</button>
+        <button class="rank-tab" id="tabMonthly" data-tab="monthly">Monthly</button>
+      </div>
+    </div>
+
+    <!-- Top 3 Podium -->
+    <div class="podium-section" id="podiumSection">
+      <div class="podium-card podium-2" id="podium2"><div class="podium-rank">2</div><div class="podium-avatar">—</div><div class="podium-name">—</div><div class="podium-score">—</div></div>
+      <div class="podium-card podium-1" id="podium1"><div class="podium-rank">🏆</div><div class="podium-avatar">—</div><div class="podium-name">—</div><div class="podium-score">—</div></div>
+      <div class="podium-card podium-3" id="podium3"><div class="podium-rank">3</div><div class="podium-avatar">—</div><div class="podium-name">—</div><div class="podium-score">—</div></div>
+    </div>
+
+    <!-- Full Ranking Table -->
+    <div class="table-card">
+      <div class="card-header">
+        <h2 class="card-title" id="rankingTableTitle">Annual Rankings – 2026</h2>
+        <div class="card-actions">
+          <input type="search" class="search-input" id="rankSearch" placeholder="Search…" />
+        </div>
+      </div>
+      <div class="table-responsive">
+        <table class="data-table ranking-table">
+          <thead>
+            <tr>
+              <th>Position</th>
+              <th>Personnel</th>
+              <th>Rank</th>
+              <th>Air Base</th>
+              <th>Tests Done</th>
+              <th>Avg Score</th>
+              <th>Annual Avg</th>
+              <th>Skill Level</th>
+              <th>Trend</th>
+            </tr>
+          </thead>
+          <tbody id="rankingTableBody">
+            <tr><td colspan="9" class="table-loading">Calculating rankings…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/rankings.js"></script>
+</body>
+</html>

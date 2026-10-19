@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Air Bases – SLAF ATC Competency Management System" />
+  <title>Air Bases – SLAF ATC CMS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Orbitron:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
+</head>
+<body class="app-page">
+  <!-- Sidebar injected by ui.js -->
+  <aside class="sidebar" id="sidebar"></aside>
+  <header class="mobile-header">
+    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+    <span class="mobile-title">Air Bases</span>
+    <button class="mobile-logout" id="mobileLogout">Logout</button>
+  </header>
+
+  <main class="main-content">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Air Bases</h1>
+        <p class="page-subtitle">Manage and monitor all operational air bases</p>
+      </div>
+      <div class="page-actions">
+        <button class="btn-primary admin-only" id="addBaseBtn">+ Add Air Base</button>
+      </div>
+    </div>
+
+    <!-- Base Cards Grid -->
+    <div class="base-grid" id="baseGrid">
+      <!-- Populated by JS -->
+    </div>
+
+    <!-- Base Detail Modal -->
+    <div class="modal-overlay" id="baseModal" style="display:none">
+      <div class="modal-box modal-lg">
+        <div class="modal-header">
+          <h2 class="modal-title" id="baseModalTitle">Base Details</h2>
+          <button class="modal-close" id="baseModalClose">✕</button>
+        </div>
+        <div class="modal-body" id="baseModalBody">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Add/Edit Base Modal -->
+    <div class="modal-overlay" id="baseEditModal" style="display:none">
+      <div class="modal-box">
+        <div class="modal-header">
+          <h2 class="modal-title" id="baseEditTitle">Add Air Base</h2>
+          <button class="modal-close" id="baseEditClose">✕</button>
+        </div>
+        <div class="modal-body">
+          <form id="baseEditForm">
+            <div class="form-group">
+              <label>Base Name</label>
+              <input type="text" id="be_name" required placeholder="e.g., Katunayake" />
+            </div>
+            <div class="form-group">
+              <label>Location</label>
+              <input type="text" id="be_location" required placeholder="City / Province" />
+            </div>
+            <div class="form-group">
+              <label>Status</label>
+              <select id="be_status">
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Commanding Officer</label>
+              <input type="text" id="be_co" placeholder="Rank and name" />
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn-outline" id="baseEditCancel">Cancel</button>
+              <button type="submit" class="btn-primary">Save Base</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="js/data.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/airbases.js"></script>
+</body>
+</html>

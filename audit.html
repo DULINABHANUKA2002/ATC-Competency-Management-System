@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Audit Log – SLAF ATC Competency Management System" />
+  <title>Audit Log – SLAF ATC CMS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Orbitron:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
+</head>
+<body class="app-page">
+  <aside class="sidebar" id="sidebar"></aside>
+  <header class="mobile-header">
+    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+    <span class="mobile-title">Audit Log</span>
+    <button class="mobile-logout" id="mobileLogout">Logout</button>
+  </header>
+
+  <main class="main-content">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Audit Log</h1>
+        <p class="page-subtitle">Complete record of all system activities and data changes</p>
+      </div>
+      <div class="page-actions">
+        <button class="btn-sm btn-outline" id="exportAuditBtn">Export CSV</button>
+      </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="filter-bar">
+      <select class="mini-select" id="auditTypeFilter">
+        <option value="">All Events</option>
+        <option value="login">Login / Logout</option>
+        <option value="data_change">Data Changes</option>
+        <option value="upload">Uploads</option>
+        <option value="user_change">User Changes</option>
+        <option value="security">Security Events</option>
+      </select>
+      <select class="mini-select" id="auditUserFilter">
+        <option value="">All Users</option>
+      </select>
+      <input type="date" class="mini-select" id="auditDateFrom" />
+      <input type="date" class="mini-select" id="auditDateTo" />
+      <input type="search" class="search-input" id="auditSearch" placeholder="Search events…" />
+    </div>
+
+    <!-- Audit Table -->
+    <div class="table-card">
+      <div class="card-header">
+        <span class="record-count" id="auditCount">Loading…</span>
+        <div class="card-actions">
+          <span class="security-badge">🔒 Immutable Log</span>
+        </div>
+      </div>
+      <div class="table-responsive">
+        <table class="data-table audit-table">
+          <thead>
+            <tr>
+              <th>Timestamp</th>
+              <th>User</th>
+              <th>Role</th>
+              <th>Action</th>
+              <th>Record Type</th>
+              <th>Detail</th>
+              <th>IP / Session</th>
+              <th>Result</th>
+            </tr>
+          </thead>
+          <tbody id="auditTableBody">
+            <tr><td colspan="8" class="table-loading">Loading audit records…</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="pagination" id="auditPagination"></div>
+    </div>
+  </main>
+
+  <script src="js/data.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/audit.js"></script>
+</body>
+</html>

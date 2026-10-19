@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Assessments – SLAF ATC Competency Management System" />
+  <title>Assessments – SLAF ATC CMS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Orbitron:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
+</head>
+<body class="app-page">
+  <aside class="sidebar" id="sidebar"></aside>
+  <header class="mobile-header">
+    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+    <span class="mobile-title">Assessments</span>
+    <button class="mobile-logout" id="mobileLogout">Logout</button>
+  </header>
+
+  <main class="main-content">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Assessments</h1>
+        <p class="page-subtitle">Monthly ATC competency assessment records</p>
+      </div>
+      <div class="page-actions">
+        <button class="btn-primary user-only" id="uploadAssessmentBtn">+ Upload Assessment</button>
+      </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="filter-bar">
+      <select class="mini-select" id="assmtBaseFilter"><option value="">All Bases</option></select>
+      <select class="mini-select" id="assmtMonthFilter">
+        <option value="">All Months</option>
+        <option value="1">January</option><option value="2">February</option>
+        <option value="3">March</option><option value="4">April</option>
+        <option value="5">May</option><option value="6">June</option>
+        <option value="7">July</option><option value="8">August</option>
+        <option value="9">September</option><option value="10">October</option>
+        <option value="11">November</option><option value="12">December</option>
+      </select>
+      <select class="mini-select" id="assmtYearFilter">
+        <option value="2026">2026</option>
+        <option value="2025">2025</option>
+        <option value="2024">2024</option>
+      </select>
+      <input type="search" class="search-input" id="assmtSearch" placeholder="Search personnel…" />
+    </div>
+
+    <!-- Assessment Table -->
+    <div class="table-card">
+      <div class="card-header">
+        <span class="record-count" id="assmtCount">Loading…</span>
+        <div class="card-actions">
+          <button class="btn-sm btn-outline" id="exportAssmtBtn">Export CSV</button>
+        </div>
+      </div>
+      <div class="table-responsive">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Personnel</th>
+              <th>Air Base</th>
+              <th>Month/Year</th>
+              <th>Max Marks</th>
+              <th>Obtained</th>
+              <th>%</th>
+              <th>Skill Level</th>
+              <th>Examiner</th>
+              <th>PDF</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="assmtTableBody">
+            <tr><td colspan="11" class="table-loading">Loading assessments…</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="pagination" id="assmtPagination"></div>
+    </div>
+  </main>
+
+  <!-- Upload Assessment Modal -->
+  <div class="modal-overlay" id="uploadModal" style="display:none">
+    <div class="modal-box modal-lg">
+      <div class="modal-header">
+        <h2 class="modal-title" id="uploadModalTitle">Upload Monthly Assessment</h2>
+        <button class="modal-close" id="uploadModalClose">✕</button>
+      </div>
+      <div class="modal-body">
+        <form id="assessmentForm" novalidate>
+          <div class="form-section-label">Assessment Details</div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Air Base *</label>
+              <select id="af_base" required><option value="">Select Base</option></select>
+            </div>
+            <div class="form-group">
+              <label>Personnel *</label>
+              <select id="af_personnel" required><option value="">Select Personnel</option></select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Assessment Year *</label>
+              <select id="af_year" required>
+                <option value="2026">2026</option>
+                <option value="2025">2025</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Assessment Month *</label>
+              <select id="af_month" required>
+                <option value="">Select Month</option>
+                <option value="1">January</option><option value="2">February</option>
+                <option value="3">March</option><option value="4">April</option>
+                <option value="5">May</option><option value="6">June</option>
+                <option value="7">July</option><option value="8">August</option>
+                <option value="9">September</option><option value="10">October</option>
+                <option value="11">November</option><option value="12">December</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Test Date *</label>
+              <input type="date" id="af_date" required />
+            </div>
+            <div class="form-group">
+              <label>Examiner / Instructor</label>
+              <input type="text" id="af_examiner" placeholder="Rank and name" />
+            </div>
+          </div>
+
+          <div class="form-section-label">Marks</div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Maximum Marks *</label>
+              <input type="number" id="af_maxmarks" required placeholder="100" min="1" max="1000" />
+            </div>
+            <div class="form-group">
+              <label>Marks Obtained *</label>
+              <input type="number" id="af_marks" required placeholder="0" min="0" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Percentage</label>
+              <div class="calc-field">
+                <span id="af_pct_display">—</span>
+                <span class="calc-note">(auto-calculated)</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Skill Level *</label>
+              <select id="af_skill" required>
+                <option value="">Select Level</option>
+                <option value="A">Level A</option>
+                <option value="B">Level B</option>
+                <option value="C">Level C</option>
+                <option value="Beginner">Beginner</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Remarks</label>
+            <textarea id="af_remarks" rows="3" placeholder="Optional remarks or observations…"></textarea>
+          </div>
+
+          <div class="form-section-label">Document Upload</div>
+          <div class="upload-zone" id="uploadZone">
+            <div class="upload-icon">📄</div>
+            <div class="upload-text">
+              <strong>Drop PDF here or click to browse</strong>
+              <span>Max 10MB • PDF files only</span>
+            </div>
+            <input type="file" id="af_pdf" accept=".pdf" class="upload-input" />
+          </div>
+          <div class="upload-validation" id="uploadValidation" style="display:none"></div>
+          <div class="security-note">
+            🔒 Files are validated, renamed and stored securely. Upload actions are recorded in the audit log.
+          </div>
+
+          <input type="hidden" id="af_edit_id" value="" />
+          <div class="modal-footer">
+            <button type="button" class="btn-outline" id="uploadCancel">Cancel</button>
+            <button type="submit" class="btn-primary">Submit Assessment</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/assessments.js"></script>
+</body>
+</html>
