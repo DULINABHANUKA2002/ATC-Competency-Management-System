@@ -5,11 +5,11 @@
 const SIDEBAR_HTML = `
 <div class="sidebar-logo">
   <div class="sidebar-logo-icon">
-    <img src="slaf_logo.png" alt="SLAF Emblem" style="width:40px;height:40px;object-fit:contain;filter:drop-shadow(0 0 6px rgba(56,189,248,0.5));" />
+    <img src="slaf_logo.png" alt="SLAF Emblem" style="width:44px;height:44px;object-fit:contain;filter:drop-shadow(0 0 10px rgba(201,162,39,0.6));" />
   </div>
   <div>
     <div class="sidebar-title">SLAF ATC</div>
-    <div class="sidebar-sub">CMS v2.0</div>
+    <div class="sidebar-sub">ATC · CMS v2.0</div>
   </div>
 </div>
 

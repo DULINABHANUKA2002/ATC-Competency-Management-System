@@ -70,7 +70,11 @@ function renderBaseGrid() {
       </div>
       <div class="base-footer">
         <span style="font-size:.75rem;color:var(--text-3)">CO: ${b.co||'—'}</span>
-        ${Auth.can('canManageBases') ? `<button class="btn-sm btn-outline" onclick="event.stopPropagation();openBaseEdit('${b.id}')">Edit</button>` : ''}
+        ${Auth.can('canManageBases') ? `
+          <div style="display:flex;gap:.4rem">
+            <button class="btn-sm btn-outline" onclick="event.stopPropagation();openBaseEdit('${b.id}')">Edit</button>
+            <button class="btn-sm" style="background:rgba(239,68,68,.15);color:#f87171;border:1px solid rgba(239,68,68,.3);border-radius:6px;padding:.25rem .65rem;font-size:.75rem;font-weight:600;cursor:pointer;transition:all .2s" onmouseover="this.style.background='rgba(239,68,68,.3)'" onmouseout="this.style.background='rgba(239,68,68,.15)'" onclick="event.stopPropagation();confirmDeleteBase('${b.id}','${b.name}')">Delete</button>
+          </div>` : ''}
       </div>
     </div>`;
   }).join('');
@@ -169,4 +173,45 @@ function handleBaseSubmit(e) {
 
   document.getElementById('baseEditModal').style.display = 'none';
   renderBaseGrid();
+}
+
+function confirmDeleteBase(id, name) {
+  // Build or reuse the confirm modal
+  let overlay = document.getElementById('baseDeleteModal');
+  if (!overlay) {
+    overlay = document.createElement('div');
+    overlay.id = 'baseDeleteModal';
+    overlay.style.cssText = 'display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:1000;align-items:center;justify-content:center;backdrop-filter:blur(4px)';
+    overlay.innerHTML = `
+      <div style="background:var(--surface-2,#1e2535);border:1px solid rgba(239,68,68,.3);border-radius:16px;padding:2rem;max-width:420px;width:90%;box-shadow:0 24px 48px rgba(0,0,0,.5);animation:fadeInUp .25s ease">
+        <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1rem">
+          <div style="width:40px;height:40px;border-radius:50%;background:rgba(239,68,68,.15);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0">🗑️</div>
+          <h3 style="margin:0;font-size:1.1rem;color:var(--text-1,#e2e8f0)">Remove Air Base</h3>
+        </div>
+        <p id="baseDeleteMsg" style="margin:0 0 1.5rem;color:var(--text-2,#94a3b8);line-height:1.6"></p>
+        <div style="display:flex;gap:.75rem;justify-content:flex-end">
+          <button id="baseDeleteCancel" style="padding:.5rem 1.25rem;border-radius:8px;border:1px solid var(--border,rgba(255,255,255,.08));background:transparent;color:var(--text-2,#94a3b8);cursor:pointer;font-size:.875rem">Cancel</button>
+          <button id="baseDeleteConfirm" style="padding:.5rem 1.25rem;border-radius:8px;border:none;background:#ef4444;color:#fff;cursor:pointer;font-size:.875rem;font-weight:600">Remove Base</button>
+        </div>
+      </div>`;
+    document.body.appendChild(overlay);
+    document.getElementById('baseDeleteCancel').addEventListener('click', () => overlay.style.display = 'none');
+  }
+
+  document.getElementById('baseDeleteMsg').textContent =
+    `Are you sure you want to permanently remove "${name}"? This cannot be undone.`;
+
+  const confirmBtn = document.getElementById('baseDeleteConfirm');
+  // Clone to remove previous listeners
+  const fresh = confirmBtn.cloneNode(true);
+  confirmBtn.replaceWith(fresh);
+  fresh.addEventListener('click', () => {
+    DB.delete('bases', id);
+    Auth.audit('RECORD_DELETED', 'BASE', `Removed base: ${name}`, 'SUCCESS');
+    showToast(`"${name}" has been removed.`, 'success');
+    overlay.style.display = 'none';
+    renderBaseGrid();
+  });
+
+  overlay.style.display = 'flex';
 }
